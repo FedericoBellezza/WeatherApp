@@ -34,6 +34,9 @@ function App() {
   // location function with fetch on form submit
   const fetchLocation = (form) => {
     form.preventDefault();
+    if (!searchedCity) {
+      return;
+    }
     const formCity = form.target.city.value;
 
     const options = { method: "GET", headers: { accept: "application/json" } };
@@ -71,7 +74,8 @@ function App() {
       .then((data) => {
         setWeatherResult(data);
         console.log(data);
-      });
+      })
+      .catch((err) => console.error(err));
   };
 
   // weather codes
@@ -367,29 +371,30 @@ function App() {
 
   return (
     <>
-      <div className="mx-auto bg-sky-800 min-h-screen h-full flex flex-col items-center pb-50">
-        <h1 className="text-7xl font-bold text-white text-center py-15">
+      <div className="mx-auto max-w-screen overflow-x-hidden bg-sky-800 min-h-screen h-full flex flex-col items-center pb-50">
+        <h1 className="xl:text-7xl text-4xl font-bold text-white text-center py-15">
           WheatherApp⛅
         </h1>
+
         <form
           onSubmit={(e) => fetchLocation(e)}
-          className="flex gap-5 w-1/2 mx-auto"
+          className="flex flex-col xl:flex-row gap-5 w-80/100 xl:w-1/2 mx-auto"
         >
           <input
             onChange={(e) => setSearchedCity(e.target.value)}
             name="city"
             type="text"
-            className="bg-white text-black flex-1 p-2 px-4 w-1/2 mx-auto rounded-lg outline-none"
+            className="bg-white text-black flex-1 p-2 px-4  mx-auto rounded-lg outline-none w-full"
             placeholder={"Cerca la tua città"}
             value={searchedCity}
           />
           <input
             type="submit"
-            className="bg-white w-25 text-black p-2 cursor-pointer hover:bg-sky-100 mx-auto rounded-lg outline-none"
+            className="bg-white w-25 scale-80 text-black p-2 cursor-pointer hover:bg-sky-100 mx-auto rounded-lg outline-none"
             value={"Cerca"}
           />
         </form>
-        <div className="rounded-lg w-1/2 mx-auto bg-white overflow-hidden mt-5">
+        <div className="rounded-lg w-90/100 xl:w-1/2 mx-auto bg-white overflow-hidden mt-5">
           {cityArray &&
             Object.entries(cityArray).map(([key, value]) => (
               <div
@@ -404,29 +409,29 @@ function App() {
 
         {/* table */}
         {weatherResult.daily && weatherResult.daily.weather_code && (
-          <table className="lg:w-50/100 mx-auto mt-5 text-center text-white bg-sky-500 border table-auto">
-            <thead className="border">
+          <table className="lg:w-50/100 w-90/100 mx-auto mt-5 text-center text-white bg-sky-500  table-fixed ">
+            <thead className=" hidden xl:contents">
               <tr className="h-10">
                 <th>Giorno</th>
                 <th>Generale</th>
                 <th>Massima</th>
                 <th>Minima</th>
-                <th>Probabilità precipitazione</th>
-                <th>Quantità precipitazione</th>
+                <th>Probabilità pre.</th>
+                <th>Quantità prec.</th>
               </tr>
             </thead>
             <tbody>
               {/* ieri */}
-              <tr className=" border h-20">
-                <td>
-                  <div className="text-xl font-bold">Ieri</div>
-                  <div className="text-sm">
+              <tr className="  h-20 ">
+                <td className="w-25">
+                  <div className="xl:text-xl text-lg font-bold">Ieri</div>
+                  <div className="text-xs">
                     {convertDate(weatherResult.daily.time[0])}
                   </div>
                 </td>
                 <td>
                   <img
-                    className="w-50/100 mx-auto"
+                    className=" xl:w-50/100 mx-auto"
                     src={findImage(weatherResult.daily.weather_code[0])}
                     alt=""
                   />
@@ -434,20 +439,22 @@ function App() {
                 <td>{weatherResult.daily.temperature_2m_max[0]}°C</td>
                 <td>{weatherResult.daily.temperature_2m_min[0]}°C</td>
                 <td>{weatherResult.daily.precipitation_probability_max[0]}%</td>
-                <td>{weatherResult.daily.precipitation_sum[0]} mm</td>
+                <td className="hidden xl:table-cell">
+                  {weatherResult.daily.precipitation_sum[0]} mm
+                </td>
               </tr>
 
               {/* oggi */}
-              <tr className="bg-sky-400 border h-20">
+              <tr className="bg-sky-400  h-20">
                 <td>
-                  <div className="text-xl font-bold">Oggi</div>
-                  <div className="text-sm">
+                  <div className="xl:text-xl text-lg font-bold">Oggi</div>
+                  <div className="text-xs">
                     {convertDate(weatherResult.daily.time[1])}
                   </div>
                 </td>
                 <td>
                   <img
-                    className="w-50/100 mx-auto"
+                    className=" xl:w-50/100 mx-auto"
                     src={findImage(weatherResult.daily.weather_code[1])}
                     alt=""
                   />
@@ -455,20 +462,24 @@ function App() {
                 <td>{weatherResult.daily.temperature_2m_max[1]}°C</td>
                 <td>{weatherResult.daily.temperature_2m_min[1]}°C</td>
                 <td>{weatherResult.daily.precipitation_probability_max[1]}%</td>
-                <td>{weatherResult.daily.precipitation_sum[1]} mm</td>
+                <td className="hidden xl:table-cell">
+                  {weatherResult.daily.precipitation_sum[1]} mm
+                </td>
               </tr>
 
               {/* domani */}
-              <tr className="border h-20">
+              <tr className=" h-20">
                 <td>
-                  <div className="text-xl font-bold">{weekDays[1]}</div>
-                  <div className="text-sm">
+                  <div className="xl:text-xl text-lg font-bold">
+                    {weekDays[1]}
+                  </div>
+                  <div className="text-xs">
                     {convertDate(weatherResult.daily.time[2])}
                   </div>
                 </td>
                 <td>
                   <img
-                    className="w-50/100 mx-auto"
+                    className=" xl:w-50/100 mx-auto"
                     src={findImage(weatherResult.daily.weather_code[2])}
                     alt=""
                   />
@@ -476,20 +487,24 @@ function App() {
                 <td>{weatherResult.daily.temperature_2m_max[2]}°C</td>
                 <td>{weatherResult.daily.temperature_2m_min[2]}°C</td>
                 <td>{weatherResult.daily.precipitation_probability_max[2]}%</td>
-                <td>{weatherResult.daily.precipitation_sum[2]} mm</td>
+                <td className="hidden xl:table-cell">
+                  {weatherResult.daily.precipitation_sum[2]} mm
+                </td>
               </tr>
 
               {/* dopo domani */}
-              <tr className="border h-20">
+              <tr className=" h-20">
                 <td>
-                  <div className="text-xl font-bold">{weekDays[2]}</div>
-                  <div className="text-sm">
+                  <div className="xl:text-xl text-lg font-bold">
+                    {weekDays[2]}
+                  </div>
+                  <div className="text-xs">
                     {convertDate(weatherResult.daily.time[3])}
                   </div>
                 </td>
                 <td>
                   <img
-                    className="w-50/100 mx-auto"
+                    className=" xl:w-50/100 mx-auto"
                     src={findImage(weatherResult.daily.weather_code[3])}
                     alt=""
                   />
@@ -497,20 +512,24 @@ function App() {
                 <td>{weatherResult.daily.temperature_2m_max[3]}°C</td>
                 <td>{weatherResult.daily.temperature_2m_min[3]}°C</td>
                 <td>{weatherResult.daily.precipitation_probability_max[3]}%</td>
-                <td>{weatherResult.daily.precipitation_sum[3]} mm</td>
+                <td className="hidden xl:table-cell">
+                  {weatherResult.daily.precipitation_sum[3]} mm
+                </td>
               </tr>
 
               {/* dopo dopo domani */}
-              <tr className="border h-20">
+              <tr className=" h-20">
                 <td>
-                  <div className="text-xl font-bold">{weekDays[3]}</div>
-                  <div className="text-sm">
+                  <div className="xl:text-xl text-lg font-bold">
+                    {weekDays[3]}
+                  </div>
+                  <div className="text-xs">
                     {convertDate(weatherResult.daily.time[4])}
                   </div>
                 </td>
                 <td>
                   <img
-                    className="w-50/100 mx-auto"
+                    className=" xl:w-50/100 mx-auto"
                     src={findImage(weatherResult.daily.weather_code[4])}
                     alt="cia"
                   />
@@ -518,19 +537,23 @@ function App() {
                 <td>{weatherResult.daily.temperature_2m_max[4]}°C</td>
                 <td>{weatherResult.daily.temperature_2m_min[4]}°C</td>
                 <td>{weatherResult.daily.precipitation_probability_max[4]}%</td>
-                <td>{weatherResult.daily.precipitation_sum[4]} mm</td>
+                <td className="hidden xl:table-cell">
+                  {weatherResult.daily.precipitation_sum[4]} mm
+                </td>
               </tr>
               {/* dopo dopo domani */}
-              <tr className="border h-20">
+              <tr className=" h-20">
                 <td>
-                  <div className="text-xl font-bold">{weekDays[4]}</div>
-                  <div className="text-sm">
+                  <div className="xl:text-xl text-lg font-bold">
+                    {weekDays[4]}
+                  </div>
+                  <div className="text-xs">
                     {convertDate(weatherResult.daily.time[5])}
                   </div>
                 </td>
                 <td>
                   <img
-                    className="w-50/100 mx-auto"
+                    className=" xl:w-50/100 mx-auto"
                     src={findImage(weatherResult.daily.weather_code[5])}
                     alt=""
                   />
@@ -538,19 +561,23 @@ function App() {
                 <td>{weatherResult.daily.temperature_2m_max[5]}°C</td>
                 <td>{weatherResult.daily.temperature_2m_min[5]}°C</td>
                 <td>{weatherResult.daily.precipitation_probability_max[5]}%</td>
-                <td>{weatherResult.daily.precipitation_sum[5]} mm</td>
+                <td className="hidden xl:table-cell">
+                  {weatherResult.daily.precipitation_sum[5]} mm
+                </td>
               </tr>
               {/* dopo dopo domani */}
-              <tr className="border h-20">
+              <tr className=" h-20">
                 <td>
-                  <div className="text-xl font-bold">{weekDays[5]}</div>
-                  <div className="text-sm">
+                  <div className="xl:text-xl text-lg font-bold">
+                    {weekDays[5]}
+                  </div>
+                  <div className="text-xs">
                     {convertDate(weatherResult.daily.time[6])}
                   </div>
                 </td>
                 <td>
                   <img
-                    className="w-50/100 mx-auto"
+                    className=" xl:w-50/100 mx-auto"
                     src={findImage(weatherResult.daily.weather_code[6])}
                     alt=""
                   />
@@ -558,7 +585,9 @@ function App() {
                 <td>{weatherResult.daily.temperature_2m_max[6]}°C</td>
                 <td>{weatherResult.daily.temperature_2m_min[6]}°C</td>
                 <td>{weatherResult.daily.precipitation_probability_max[6]}%</td>
-                <td>{weatherResult.daily.precipitation_sum[6]} mm</td>
+                <td className="hidden xl:table-cell">
+                  {weatherResult.daily.precipitation_sum[6]} mm
+                </td>
               </tr>
             </tbody>
           </table>
