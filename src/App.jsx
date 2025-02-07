@@ -65,7 +65,7 @@ function App() {
     const longitude = city.lon;
 
     fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&past_days=1`
+      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=precipitation_sum&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&past_days=1`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -358,9 +358,16 @@ function App() {
     },
   };
 
+  const findImage = (code) => {
+    const chiavi = Object.keys(weatherCodes);
+    const valori = Object.values(weatherCodes);
+
+    return valori[chiavi.indexOf(String(code))].day.image;
+  };
+
   return (
     <>
-      <div className="mx-auto bg-sky-800 h-screen flex flex-col items-center">
+      <div className="mx-auto bg-sky-800 min-h-screen h-full flex flex-col items-center pb-50">
         <h1 className="text-7xl font-bold text-white text-center py-15">
           WheatherApp⛅
         </h1>
@@ -395,8 +402,9 @@ function App() {
             ))}
         </div>
 
+        {/* table */}
         {weatherResult.daily && weatherResult.daily.weather_code && (
-          <table className="w-1/2 mx-auto mt-5 text-center text-white border table-auto">
+          <table className="lg:w-50/100 mx-auto mt-5 text-center text-white bg-sky-500 border table-auto">
             <thead className="border">
               <tr className="h-10">
                 <th>Giorno</th>
@@ -404,6 +412,7 @@ function App() {
                 <th>Massima</th>
                 <th>Minima</th>
                 <th>Probabilità precipitazione</th>
+                <th>Quantità precipitazione</th>
               </tr>
             </thead>
             <tbody>
@@ -415,14 +424,21 @@ function App() {
                     {convertDate(weatherResult.daily.time[0])}
                   </div>
                 </td>
-                <td>boh</td>
+                <td>
+                  <img
+                    className="w-50/100 mx-auto"
+                    src={findImage(weatherResult.daily.weather_code[0])}
+                    alt=""
+                  />
+                </td>
                 <td>{weatherResult.daily.temperature_2m_max[0]}°C</td>
                 <td>{weatherResult.daily.temperature_2m_min[0]}°C</td>
                 <td>{weatherResult.daily.precipitation_probability_max[0]}%</td>
+                <td>{weatherResult.daily.precipitation_sum[0]} mm</td>
               </tr>
 
               {/* oggi */}
-              <tr className="bg-sky-500 border h-20">
+              <tr className="bg-sky-400 border h-20">
                 <td>
                   <div className="text-xl font-bold">Oggi</div>
                   <div className="text-sm">
@@ -430,87 +446,119 @@ function App() {
                   </div>
                 </td>
                 <td>
-                  {/* <img
-                    src={findImage0(weatherResult.daily.weather_code[1])}
+                  <img
+                    className="w-50/100 mx-auto"
+                    src={findImage(weatherResult.daily.weather_code[1])}
                     alt=""
-                  /> */}
+                  />
                 </td>
                 <td>{weatherResult.daily.temperature_2m_max[1]}°C</td>
                 <td>{weatherResult.daily.temperature_2m_min[1]}°C</td>
                 <td>{weatherResult.daily.precipitation_probability_max[1]}%</td>
+                <td>{weatherResult.daily.precipitation_sum[1]} mm</td>
               </tr>
 
               {/* domani */}
               <tr className="border h-20">
                 <td>
-                  <div className="text-xl font-bold">{weekDays[0]}</div>
+                  <div className="text-xl font-bold">{weekDays[1]}</div>
                   <div className="text-sm">
                     {convertDate(weatherResult.daily.time[2])}
                   </div>
                 </td>
                 <td>
-                  {/* <img
-                    src={findImage0(weatherResult.daily.weather_code[2])}
+                  <img
+                    className="w-50/100 mx-auto"
+                    src={findImage(weatherResult.daily.weather_code[2])}
                     alt=""
-                  /> */}
+                  />
                 </td>
                 <td>{weatherResult.daily.temperature_2m_max[2]}°C</td>
                 <td>{weatherResult.daily.temperature_2m_min[2]}°C</td>
                 <td>{weatherResult.daily.precipitation_probability_max[2]}%</td>
+                <td>{weatherResult.daily.precipitation_sum[2]} mm</td>
               </tr>
 
               {/* dopo domani */}
               <tr className="border h-20">
                 <td>
-                  <div className="text-xl font-bold">{weekDays[1]}</div>
+                  <div className="text-xl font-bold">{weekDays[2]}</div>
                   <div className="text-sm">
                     {convertDate(weatherResult.daily.time[3])}
                   </div>
                 </td>
-                <td>{weatherResult.daily.weather_code[3]}</td>
+                <td>
+                  <img
+                    className="w-50/100 mx-auto"
+                    src={findImage(weatherResult.daily.weather_code[3])}
+                    alt=""
+                  />
+                </td>
                 <td>{weatherResult.daily.temperature_2m_max[3]}°C</td>
                 <td>{weatherResult.daily.temperature_2m_min[3]}°C</td>
                 <td>{weatherResult.daily.precipitation_probability_max[3]}%</td>
+                <td>{weatherResult.daily.precipitation_sum[3]} mm</td>
               </tr>
 
               {/* dopo dopo domani */}
               <tr className="border h-20">
                 <td>
-                  <div className="text-xl font-bold">{weekDays[2]}</div>
+                  <div className="text-xl font-bold">{weekDays[3]}</div>
                   <div className="text-sm">
                     {convertDate(weatherResult.daily.time[4])}
                   </div>
                 </td>
-                <td>{weatherResult.daily.weather_code[4]}</td>
+                <td>
+                  <img
+                    className="w-50/100 mx-auto"
+                    src={findImage(weatherResult.daily.weather_code[4])}
+                    alt="cia"
+                  />
+                </td>
                 <td>{weatherResult.daily.temperature_2m_max[4]}°C</td>
                 <td>{weatherResult.daily.temperature_2m_min[4]}°C</td>
                 <td>{weatherResult.daily.precipitation_probability_max[4]}%</td>
-              </tr>
-              {/* dopo dopo domani */}
-              <tr className="border h-20">
-                <td>
-                  <div className="text-xl font-bold">{weekDays[3]}</div>
-                  <div className="text-sm">
-                    {convertDate(weatherResult.daily.time[5])}
-                  </div>
-                </td>
-                <td>{weatherResult.daily.weather_code[5]}</td>
-                <td>{weatherResult.daily.temperature_2m_max[5]}°C</td>
-                <td>{weatherResult.daily.temperature_2m_min[5]}°C</td>
-                <td>{weatherResult.daily.precipitation_probability_max[5]}%</td>
+                <td>{weatherResult.daily.precipitation_sum[4]} mm</td>
               </tr>
               {/* dopo dopo domani */}
               <tr className="border h-20">
                 <td>
                   <div className="text-xl font-bold">{weekDays[4]}</div>
                   <div className="text-sm">
+                    {convertDate(weatherResult.daily.time[5])}
+                  </div>
+                </td>
+                <td>
+                  <img
+                    className="w-50/100 mx-auto"
+                    src={findImage(weatherResult.daily.weather_code[5])}
+                    alt=""
+                  />
+                </td>
+                <td>{weatherResult.daily.temperature_2m_max[5]}°C</td>
+                <td>{weatherResult.daily.temperature_2m_min[5]}°C</td>
+                <td>{weatherResult.daily.precipitation_probability_max[5]}%</td>
+                <td>{weatherResult.daily.precipitation_sum[5]} mm</td>
+              </tr>
+              {/* dopo dopo domani */}
+              <tr className="border h-20">
+                <td>
+                  <div className="text-xl font-bold">{weekDays[5]}</div>
+                  <div className="text-sm">
                     {convertDate(weatherResult.daily.time[6])}
                   </div>
                 </td>
-                <td>{weatherResult.daily.weather_code[6]}</td>
+                <td>
+                  <img
+                    className="w-50/100 mx-auto"
+                    src={findImage(weatherResult.daily.weather_code[6])}
+                    alt=""
+                  />
+                </td>
                 <td>{weatherResult.daily.temperature_2m_max[6]}°C</td>
                 <td>{weatherResult.daily.temperature_2m_min[6]}°C</td>
                 <td>{weatherResult.daily.precipitation_probability_max[6]}%</td>
+                <td>{weatherResult.daily.precipitation_sum[6]} mm</td>
               </tr>
             </tbody>
           </table>
