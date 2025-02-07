@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { Link } from "react-router";
 
-function App() {
+export default function HomePage() {
   // time
   let weekDays = [];
   function getGiorniSettimana() {
@@ -441,7 +442,13 @@ function App() {
             </thead>
             <tbody>
               {/* ieri */}
-              <tr className="  h-20 ">
+
+              <tr
+                // onClick={() =>
+                //   (window.location.href = `/${weatherResult.latitude}/${weatherResult.longitude}/${weatherResult.daily.time[0]}`)
+                // }
+                className="h-20 "
+              >
                 <td className="w-25">
                   <div className="xl:text-xl text-lg font-bold">Ieri</div>
                   <div className="text-xs">
@@ -615,5 +622,3 @@ function App() {
     </>
   );
 }
-
-export default App;
