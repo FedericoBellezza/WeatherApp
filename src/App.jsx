@@ -390,7 +390,7 @@ function App() {
           />
           <input
             type="submit"
-            className="bg-white w-25 scale-80 text-black p-2 cursor-pointer hover:bg-sky-100 mx-auto rounded-lg outline-none"
+            className="bg-white w-25 scale-80 lg:scale-100 text-black p-2 cursor-pointer hover:bg-sky-100 mx-auto rounded-lg outline-none"
             value={"Cerca"}
           />
         </form>
@@ -400,7 +400,7 @@ function App() {
               <div
                 key={key}
                 onClick={() => getWheather(value)}
-                className="bg-white  mx-auto p-2 px-4 text-nowrap  text-r outline-none cursor-pointer hover:bg-sky-100"
+                className="w-full text-sm lg:text-lg  mx-auto p-2 px-4 text-nowrap whitespace-nowrap overflow-hidden text-ellipsis inline-block bg-white outline-none cursor-pointer hover:bg-sky-100"
               >
                 {value.display_name}
               </div>
@@ -409,9 +409,9 @@ function App() {
 
         {/* table */}
         {weatherResult.daily && weatherResult.daily.weather_code && (
-          <table className="lg:w-50/100 w-90/100 mx-auto mt-5 text-center text-white bg-sky-500  table-fixed ">
-            <thead className=" hidden xl:contents">
-              <tr className="h-10">
+          <table className="lg:w-50/100 w-90/100 mx-auto mt-5 text-center text-white bg-sky-500  table-fixed rounded-xl overflow-hidden">
+            <thead className=" hidden xl:contents  ">
+              <tr className="h-15  bg-blue-500">
                 <th>Giorno</th>
                 <th>Generale</th>
                 <th>Massima</th>
