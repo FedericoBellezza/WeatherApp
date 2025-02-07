@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
-/* * {
-  border: 1px dashed black;
-} */
+* {
+  font-family: "Raleway", sans-serif;
+}
+
+.animate-spin {
+  animation-duration: 4000ms;
+}

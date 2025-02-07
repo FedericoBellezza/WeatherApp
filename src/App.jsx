@@ -30,13 +30,18 @@ function App() {
   const [searchedCity, setSearchedCity] = useState("");
   const [cityArray, setCityArray] = useState([]);
   const [weatherResult, setWeatherResult] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   // location function with fetch on form submit
   const fetchLocation = (form) => {
     form.preventDefault();
+
     if (!searchedCity) {
       return;
     }
+    setWeatherResult([]);
+    setCityArray([]);
+    setIsLoading(true);
     const formCity = form.target.city.value;
 
     const options = { method: "GET", headers: { accept: "application/json" } };
@@ -47,6 +52,8 @@ function App() {
     )
       .then((res) => res.json())
       .then((res) => {
+        setIsLoading(false);
+
         console.log(res);
         setCityArray(res);
       })
@@ -62,6 +69,8 @@ function App() {
 
   // function to get wheather
   const getWheather = (city) => {
+    setIsLoading(true);
+
     setSearchedCity("");
     setCityArray([]);
     const latitude = city.lat;
@@ -72,6 +81,8 @@ function App() {
     )
       .then((res) => res.json())
       .then((data) => {
+        setIsLoading(false);
+
         setWeatherResult(data);
         console.log(data);
       })
@@ -371,15 +382,20 @@ function App() {
 
   return (
     <>
+      <div
+        className={` flex-col items-center ${isLoading ? "flex" : "hidden"}`}
+      >
+        <i className="fa-solid fa-circle-notch fixed text-[15rem] animate-spin text-white top-90 "></i>
+      </div>
       <div className="fixed top-0 left-0 w-screen h-screen  bg-linear-to-tr from-cyan-500 to-sky-700 z-[-2]"></div>
       <i className="fa-solid fa-cloud text-[30rem] xl:text-[60rem] text-white fixed opacity-35 xl:top-30 xl:left-[-10rem] top-100 left-[-15rem]  z-[-1]"></i>
       <div className="mx-auto my-0 max-w-screen overflow-hidden bg-linear-to-tr  min-h-screen h-full flex flex-col items-center pb-50 ">
-        <h1 className="xl:text-7xl text-4xl xl:font-bold font-black text-white text-center py-15">
+        <h1 className="xl:text-7xl text-4xl font-black text-white text-center py-15">
           WheatherApp⛅
         </h1>
 
         <form
-          onSubmit={(e) => fetchLocation(e)}
+          onSubmit={(e) => (isLoading ? null : fetchLocation(e))}
           className="flex flex-col xl:flex-row gap-5 w-80/100 xl:w-1/2 mx-auto"
         >
           <input
