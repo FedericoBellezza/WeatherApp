@@ -371,7 +371,9 @@ function App() {
 
   return (
     <>
-      <div className="mx-auto max-w-screen overflow-x-hidden bg-sky-800 min-h-screen h-full flex flex-col items-center pb-50">
+      <div className="fixed top-0 left-0 w-screen h-screen  bg-linear-to-tr from-cyan-500 to-sky-700 z-[-2]"></div>
+      <i className="fa-solid fa-cloud text-[30rem] xl:text-[60rem] text-white fixed opacity-35 xl:top-30 xl:left-[-10rem] top-100 left-[-15rem]  z-[-1]"></i>
+      <div className="mx-auto my-0 max-w-screen overflow-hidden bg-linear-to-tr  min-h-screen h-full flex flex-col items-center pb-50 ">
         <h1 className="xl:text-7xl text-4xl font-bold text-white text-center py-15">
           WheatherApp⛅
         </h1>
