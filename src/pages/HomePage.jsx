@@ -397,7 +397,7 @@ export default function HomePage() {
 
             {/* yesterday */}
             <Link
-              to={`/daily-weather`}
+              to={`/daily-weather/${weatherResult.daily.time[0]}`}
               className="flex justify-between items-center p-3 bg-blue-500"
             >
               <div className="w-1/6">
@@ -453,7 +453,7 @@ export default function HomePage() {
 
             {/* tomorrow */}
             <Link
-              // to={`/day/${weatherResult.daily.time[0]}`}
+              to={`/daily-weather/${weatherResult.daily.time[2]}`}
               className="flex justify-between items-center p-3 bg-blue-500"
             >
               <div className="w-1/6">
@@ -481,7 +481,7 @@ export default function HomePage() {
 
             {/* in 2 days */}
             <Link
-              // to={`/day/${weatherResult.daily.time[0]}`}
+              to={`/daily-weather/${weatherResult.daily.time[3]}`}
               className="flex justify-between items-center p-3 bg-blue-500"
             >
               <div className="w-1/6">
@@ -511,7 +511,7 @@ export default function HomePage() {
 
             {/* In 3 days */}
             <Link
-              // to={`/day/${weatherResult.daily.time[0]}`}
+              to={`/daily-weather/${weatherResult.daily.time[4]}`}
               className="flex justify-between items-center p-3 bg-blue-500"
             >
               <div className="w-1/6">
@@ -541,7 +541,7 @@ export default function HomePage() {
 
             {/* In 4 days */}
             <Link
-              // to={`/day/${weatherResult.daily.time[0]}`}
+              to={`/daily-weather/${weatherResult.daily.time[5]}`}
               className="flex justify-between items-center p-3 bg-blue-500"
             >
               <div className="w-1/6">
