@@ -1,15 +1,18 @@
 import DayWeatherPage from "./pages/DayWeatherPage";
 import HomePage from "./pages/HomePage";
 import { BrowserRouter, Route, Routes } from "react-router";
+import { GlobalContextProvider } from "./context/GlobalContext";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route index element={<HomePage />} />
-        <Route path="/:lat/:lon/:day" element={<DayWeatherPage />} />
-      </Routes>
-    </BrowserRouter>
+    <GlobalContextProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<HomePage />} />
+          <Route path="/daily-weather/:date" element={<DayWeatherPage />} />
+        </Routes>
+      </BrowserRouter>
+    </GlobalContextProvider>
   );
 }
 

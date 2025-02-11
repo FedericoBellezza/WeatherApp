@@ -1,7 +1,22 @@
-import { useState } from "react";
 import { Link } from "react-router";
+import { useGlobalContext } from "../context/GlobalContext";
 
 export default function HomePage() {
+  // get data from context
+  const {
+    searchedCity,
+    setSearchedCity,
+    cityArray,
+    setCityArray,
+    weatherResult,
+    setWeatherResult,
+    isLoading,
+    setIsLoading,
+    convertDate,
+    fetchLocation,
+    getWheather,
+  } = useGlobalContext();
+
   // time
   let weekDays = [];
   function getGiorniSettimana() {
@@ -26,69 +41,6 @@ export default function HomePage() {
     return weekDays;
   }
   getGiorniSettimana();
-
-  // states
-  const [searchedCity, setSearchedCity] = useState("");
-  const [cityArray, setCityArray] = useState([]);
-  const [weatherResult, setWeatherResult] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-
-  // location function with fetch on form submit
-  const fetchLocation = (form) => {
-    form.preventDefault();
-
-    if (!searchedCity) {
-      return;
-    }
-    setWeatherResult([]);
-    setCityArray([]);
-    setIsLoading(true);
-    const formCity = form.target.city.value;
-
-    const options = { method: "GET", headers: { accept: "application/json" } };
-
-    fetch(
-      `https://us1.locationiq.com/v1/search?addressdetails=1&normalizeaddress=1&q=${formCity}&format=json&limit=10&key=pk.5de778617138b4b5dc62d48a839fa325`,
-      options
-    )
-      .then((res) => res.json())
-      .then((res) => {
-        setIsLoading(false);
-
-        console.log(res);
-        setCityArray(res);
-      })
-      .catch((err) => console.error(err));
-  };
-
-  // function to convert date from yyyy-mm-dd to dd-mm-yyyy
-  const convertDate = (date) => {
-    const [year, month, day] = date.split("-");
-
-    return `${day}-${month}-${year}`;
-  };
-
-  // function to get wheather from coordinates
-  const getWheather = (city) => {
-    setIsLoading(true);
-
-    setSearchedCity("");
-    setCityArray([]);
-    const latitude = city.lat;
-    const longitude = city.lon;
-
-    fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=precipitation_sum&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&past_days=1`
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        setIsLoading(false);
-
-        setWeatherResult(data);
-        console.log(data);
-      })
-      .catch((err) => console.error(err));
-  };
 
   // weather codes
   const weatherCodes = {
@@ -429,194 +381,194 @@ export default function HomePage() {
 
         {/* table */}
         {weatherResult.daily && weatherResult.daily.weather_code && (
-          <table className="lg:w-50/100 w-90/100 mx-auto mt-5 text-center text-white bg-sky-500  table-fixed rounded-xl overflow-hidden">
-            <thead className=" hidden xl:contents  ">
-              <tr className="h-15  bg-blue-500">
-                <th>Giorno</th>
-                <th>Generale</th>
-                <th>Massima</th>
-                <th>Minima</th>
-                <th>Probabilità pre.</th>
-                <th>Quantità prec.</th>
-              </tr>
-            </thead>
-            <tbody>
-              {/* ieri */}
+          <div className="xl:w-60/100  w-90/100 mx-auto mt-5 text-center text-white bg-sky-500  table-fixed rounded-xl overflow-hidden">
+            <div className="flex justify-between items-center p-3 bg-blue-600 font-bold">
+              <p className="w-1/6 text-sm lg:text-lg">Giorno</p>
+              <p className="w-1/6 text-sm lg:text-lg">Generale</p>
+              <p className="w-1/6 text-sm lg:text-lg">Massima</p>
+              <p className="w-1/6 text-sm lg:text-lg">Minima</p>
+              <p className="w-1/6 text-sm lg:text-lg">
+                Prob<span className="hidden lg:inline">abilità</span> prec.
+              </p>
+              <p className="hidden lg:block w-1/6 text-sm lg:text-lg">
+                Quantità prec.
+              </p>
+            </div>
 
-              <tr
-                // onClick={() =>
-                //   (window.location.href = `/${weatherResult.latitude}/${weatherResult.longitude}/${weatherResult.daily.time[0]}`)
-                // }
-                className="h-20 "
-              >
-                <td className="w-25">
-                  <div className="xl:text-xl text-lg font-bold">Ieri</div>
-                  <div className="text-xs">
-                    {convertDate(weatherResult.daily.time[0])}
-                  </div>
-                </td>
-                <td>
-                  <img
-                    className=" xl:w-50/100 mx-auto"
-                    src={findImage(weatherResult.daily.weather_code[0])}
-                    alt=""
-                  />
-                </td>
-                <td>{weatherResult.daily.temperature_2m_max[0]}°C</td>
-                <td>{weatherResult.daily.temperature_2m_min[0]}°C</td>
-                <td>{weatherResult.daily.precipitation_probability_max[0]}%</td>
-                <td className="hidden xl:table-cell">
-                  {weatherResult.daily.precipitation_sum[0]} mm
-                </td>
-              </tr>
+            {/* yesterday */}
+            <Link
+              to={`/daily-weather`}
+              className="flex justify-between items-center p-3 bg-blue-500"
+            >
+              <div className="w-1/6">
+                <p className="lg:inline hidden text-2xl font-bold ">Ieri</p>
+                <p className="text-xs text-nowrap md:text-xl">
+                  {convertDate(weatherResult.daily.time[0])}
+                </p>
+              </div>
+              <div className="w-1/6 flex justify-center">
+                <img src={findImage(weatherResult.daily.weather_code[0])} />
+              </div>
+              <p className="w-1/6">
+                {weatherResult.daily.temperature_2m_max[0]}°C
+              </p>
+              <p className="w-1/6">
+                {weatherResult.daily.temperature_2m_min[0]}°C
+              </p>
+              <p className="w-1/6">
+                {weatherResult.daily.precipitation_probability_max[0]}%
+              </p>
+              <p className="hidden lg:block w-1/6">
+                {weatherResult.daily.precipitation_sum[0]} mm
+              </p>
+            </Link>
 
-              {/* oggi */}
-              <tr className="bg-sky-400  h-20">
-                <td>
-                  <div className="xl:text-xl text-lg font-bold">Oggi</div>
-                  <div className="text-xs">
-                    {convertDate(weatherResult.daily.time[1])}
-                  </div>
-                </td>
-                <td>
-                  <img
-                    className=" xl:w-50/100 mx-auto"
-                    src={findImage(weatherResult.daily.weather_code[1])}
-                    alt=""
-                  />
-                </td>
-                <td>{weatherResult.daily.temperature_2m_max[1]}°C</td>
-                <td>{weatherResult.daily.temperature_2m_min[1]}°C</td>
-                <td>{weatherResult.daily.precipitation_probability_max[1]}%</td>
-                <td className="hidden xl:table-cell">
-                  {weatherResult.daily.precipitation_sum[1]} mm
-                </td>
-              </tr>
+            {/* today */}
+            <Link
+              to={`/daily-weather/${weatherResult.daily.time[1]}`}
+              className="flex justify-between items-center p-3 bg-blue-400"
+            >
+              <div className="w-1/6">
+                <p className="lg:inline hidden text-2xl font-bold ">Oggi</p>
+                <p className="text-xs text-nowrap md:text-xl">
+                  {convertDate(weatherResult.daily.time[1])}
+                </p>
+              </div>
+              <div className="w-1/6 flex justify-center">
+                <img src={findImage(weatherResult.daily.weather_code[1])} />
+              </div>
+              <p className="w-1/6">
+                {weatherResult.daily.temperature_2m_max[1]}°C
+              </p>
+              <p className="w-1/6">
+                {weatherResult.daily.temperature_2m_min[1]}°C
+              </p>
+              <p className="w-1/6">
+                {weatherResult.daily.precipitation_probability_max[1]}%
+              </p>
+              <p className="hidden lg:block w-1/6">
+                {weatherResult.daily.precipitation_sum[1]} mm
+              </p>
+            </Link>
 
-              {/* domani */}
-              <tr className=" h-20">
-                <td>
-                  <div className="xl:text-xl text-lg font-bold">
-                    {weekDays[1]}
-                  </div>
-                  <div className="text-xs">
-                    {convertDate(weatherResult.daily.time[2])}
-                  </div>
-                </td>
-                <td>
-                  <img
-                    className=" xl:w-50/100 mx-auto"
-                    src={findImage(weatherResult.daily.weather_code[2])}
-                    alt=""
-                  />
-                </td>
-                <td>{weatherResult.daily.temperature_2m_max[2]}°C</td>
-                <td>{weatherResult.daily.temperature_2m_min[2]}°C</td>
-                <td>{weatherResult.daily.precipitation_probability_max[2]}%</td>
-                <td className="hidden xl:table-cell">
-                  {weatherResult.daily.precipitation_sum[2]} mm
-                </td>
-              </tr>
+            {/* tomorrow */}
+            <Link
+              // to={`/day/${weatherResult.daily.time[0]}`}
+              className="flex justify-between items-center p-3 bg-blue-500"
+            >
+              <div className="w-1/6">
+                <p className="lg:inline hidden text-2xl font-bold ">Domani</p>
+                <p className="text-xs text-nowrap md:text-xl">
+                  {convertDate(weatherResult.daily.time[2])}
+                </p>
+              </div>
+              <div className="w-1/6 flex justify-center">
+                <img src={findImage(weatherResult.daily.weather_code[2])} />
+              </div>
+              <p className="w-1/6">
+                {weatherResult.daily.temperature_2m_max[2]}°C
+              </p>
+              <p className="w-1/6">
+                {weatherResult.daily.temperature_2m_min[2]}°C
+              </p>
+              <p className="w-1/6">
+                {weatherResult.daily.precipitation_probability_max[2]}%
+              </p>
+              <p className="hidden lg:block w-1/6">
+                {weatherResult.daily.precipitation_sum[2]} mm
+              </p>
+            </Link>
 
-              {/* dopo domani */}
-              <tr className=" h-20">
-                <td>
-                  <div className="xl:text-xl text-lg font-bold">
-                    {weekDays[2]}
-                  </div>
-                  <div className="text-xs">
-                    {convertDate(weatherResult.daily.time[3])}
-                  </div>
-                </td>
-                <td>
-                  <img
-                    className=" xl:w-50/100 mx-auto"
-                    src={findImage(weatherResult.daily.weather_code[3])}
-                    alt=""
-                  />
-                </td>
-                <td>{weatherResult.daily.temperature_2m_max[3]}°C</td>
-                <td>{weatherResult.daily.temperature_2m_min[3]}°C</td>
-                <td>{weatherResult.daily.precipitation_probability_max[3]}%</td>
-                <td className="hidden xl:table-cell">
-                  {weatherResult.daily.precipitation_sum[3]} mm
-                </td>
-              </tr>
+            {/* in 2 days */}
+            <Link
+              // to={`/day/${weatherResult.daily.time[0]}`}
+              className="flex justify-between items-center p-3 bg-blue-500"
+            >
+              <div className="w-1/6">
+                <p className="lg:inline hidden text-2xl font-bold ">
+                  Tra 2 giorni
+                </p>
+                <p className="text-xs text-nowrap md:text-xl">
+                  {convertDate(weatherResult.daily.time[3])}
+                </p>
+              </div>
+              <div className="w-1/6 flex justify-center">
+                <img src={findImage(weatherResult.daily.weather_code[3])} />
+              </div>
+              <p className="w-1/6">
+                {weatherResult.daily.temperature_2m_max[3]}°C
+              </p>
+              <p className="w-1/6">
+                {weatherResult.daily.temperature_2m_min[3]}°C
+              </p>
+              <p className="w-1/6">
+                {weatherResult.daily.precipitation_probability_max[3]}%
+              </p>
+              <p className="hidden lg:block w-1/6">
+                {weatherResult.daily.precipitation_sum[3]} mm
+              </p>
+            </Link>
 
-              {/* dopo dopo domani */}
-              <tr className=" h-20">
-                <td>
-                  <div className="xl:text-xl text-lg font-bold">
-                    {weekDays[3]}
-                  </div>
-                  <div className="text-xs">
-                    {convertDate(weatherResult.daily.time[4])}
-                  </div>
-                </td>
-                <td>
-                  <img
-                    className=" xl:w-50/100 mx-auto"
-                    src={findImage(weatherResult.daily.weather_code[4])}
-                    alt="cia"
-                  />
-                </td>
-                <td>{weatherResult.daily.temperature_2m_max[4]}°C</td>
-                <td>{weatherResult.daily.temperature_2m_min[4]}°C</td>
-                <td>{weatherResult.daily.precipitation_probability_max[4]}%</td>
-                <td className="hidden xl:table-cell">
-                  {weatherResult.daily.precipitation_sum[4]} mm
-                </td>
-              </tr>
-              {/* dopo dopo domani */}
-              <tr className=" h-20">
-                <td>
-                  <div className="xl:text-xl text-lg font-bold">
-                    {weekDays[4]}
-                  </div>
-                  <div className="text-xs">
-                    {convertDate(weatherResult.daily.time[5])}
-                  </div>
-                </td>
-                <td>
-                  <img
-                    className=" xl:w-50/100 mx-auto"
-                    src={findImage(weatherResult.daily.weather_code[5])}
-                    alt=""
-                  />
-                </td>
-                <td>{weatherResult.daily.temperature_2m_max[5]}°C</td>
-                <td>{weatherResult.daily.temperature_2m_min[5]}°C</td>
-                <td>{weatherResult.daily.precipitation_probability_max[5]}%</td>
-                <td className="hidden xl:table-cell">
-                  {weatherResult.daily.precipitation_sum[5]} mm
-                </td>
-              </tr>
-              {/* dopo dopo domani */}
-              <tr className=" h-20">
-                <td>
-                  <div className="xl:text-xl text-lg font-bold">
-                    {weekDays[5]}
-                  </div>
-                  <div className="text-xs">
-                    {convertDate(weatherResult.daily.time[6])}
-                  </div>
-                </td>
-                <td>
-                  <img
-                    className=" xl:w-50/100 mx-auto"
-                    src={findImage(weatherResult.daily.weather_code[6])}
-                    alt=""
-                  />
-                </td>
-                <td>{weatherResult.daily.temperature_2m_max[6]}°C</td>
-                <td>{weatherResult.daily.temperature_2m_min[6]}°C</td>
-                <td>{weatherResult.daily.precipitation_probability_max[6]}%</td>
-                <td className="hidden xl:table-cell">
-                  {weatherResult.daily.precipitation_sum[6]} mm
-                </td>
-              </tr>
-            </tbody>
-          </table>
+            {/* In 3 days */}
+            <Link
+              // to={`/day/${weatherResult.daily.time[0]}`}
+              className="flex justify-between items-center p-3 bg-blue-500"
+            >
+              <div className="w-1/6">
+                <p className="lg:inline hidden text-2xl font-bold ">
+                  Tra 3 giorni
+                </p>
+                <p className="text-xs text-nowrap md:text-xl">
+                  {convertDate(weatherResult.daily.time[4])}
+                </p>
+              </div>
+              <div className="w-1/6 flex justify-center">
+                <img src={findImage(weatherResult.daily.weather_code[4])} />
+              </div>
+              <p className="w-1/6">
+                {weatherResult.daily.temperature_2m_max[4]}°C
+              </p>
+              <p className="w-1/6">
+                {weatherResult.daily.temperature_2m_min[4]}°C
+              </p>
+              <p className="w-1/6">
+                {weatherResult.daily.precipitation_probability_max[4]}%
+              </p>
+              <p className="hidden lg:block w-1/6">
+                {weatherResult.daily.precipitation_sum[4]} mm
+              </p>
+            </Link>
+
+            {/* In 4 days */}
+            <Link
+              // to={`/day/${weatherResult.daily.time[0]}`}
+              className="flex justify-between items-center p-3 bg-blue-500"
+            >
+              <div className="w-1/6">
+                <p className="lg:inline hidden text-2xl font-bold ">
+                  Tra 4 giorni
+                </p>
+                <p className="text-xs text-nowrap md:text-xl">
+                  {convertDate(weatherResult.daily.time[5])}
+                </p>
+              </div>
+              <div className="w-1/6 flex justify-center">
+                <img src={findImage(weatherResult.daily.weather_code[5])} />
+              </div>
+              <p className="w-1/6">
+                {weatherResult.daily.temperature_2m_max[5]}°C
+              </p>
+              <p className="w-1/6">
+                {weatherResult.daily.temperature_2m_min[5]}°C
+              </p>
+              <p className="w-1/6">
+                {weatherResult.daily.precipitation_probability_max[5]}%
+              </p>
+              <p className="hidden lg:block w-1/6">
+                {weatherResult.daily.precipitation_sum[5]} mm
+              </p>
+            </Link>
+          </div>
         )}
       </div>
     </>
