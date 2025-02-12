@@ -69,7 +69,7 @@ export default function DayWeatherPage() {
                   <br /> {weatherResult.daily.precipitation_sum[id]} mm
                 </div>
               </div>
-              {/* Precipitation probability */}
+              {/* Precipitation probabiliti */}
               <div className="flex flex-col items-center justify-between md:w-1/5 w-35   gap-3 bg-linear-to-tr from-sky-600 to-sky-500  rounded-2xl p-5  ">
                 <i className="fa-solid fa-sun text-5xl lg:text-7xl"></i>
                 <div className="md:text-2xl text-lg ">
