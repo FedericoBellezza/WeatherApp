@@ -103,8 +103,8 @@ export default function HomePage() {
 
         {/* table */}
         {weatherResult.daily && weatherResult.daily.weather_code && (
-          <div className="xl:w-60/100  w-90/100 mx-auto mt-5 text-center text-white bg-sky-500  table-fixed rounded-xl overflow-hidden">
-            <div className="flex justify-between items-center p-3 bg-blue-600 font-bold">
+          <div className="xl:w-60/100  w-90/100 mx-auto mt-5 text-center text-white bg-linear-to-tr from-sky-600 to-sky-500  rounded-xl overflow-hidden">
+            <div className="flex justify-between items-center p-3 bg-sky-500 font-bold">
               <p className="w-1/6 text-sm lg:text-lg">Giorno</p>
               <p className="w-1/6 text-sm lg:text-lg">Generale</p>
               <p className="w-1/6 text-sm lg:text-lg">Massima</p>
@@ -116,11 +116,12 @@ export default function HomePage() {
                 Quantità prec.
               </p>
             </div>
+            <hr />
 
             {/* yesterday */}
             <Link
               to={`/daily-weather/0`}
-              className="flex justify-between items-center p-3 bg-blue-500"
+              className="flex justify-between items-center p-3 "
             >
               <div className="w-1/6">
                 <p className="lg:inline hidden text-2xl font-bold ">Ieri</p>
@@ -176,7 +177,7 @@ export default function HomePage() {
             {/* tomorrow */}
             <Link
               to={`/daily-weather/2`}
-              className="flex justify-between items-center p-3 bg-blue-500"
+              className="flex justify-between items-center p-3 "
             >
               <div className="w-1/6">
                 <p className="lg:inline hidden text-2xl font-bold ">Domani</p>
@@ -204,7 +205,7 @@ export default function HomePage() {
             {/* in 2 days */}
             <Link
               to={`/daily-weather/3`}
-              className="flex justify-between items-center p-3 bg-blue-500"
+              className="flex justify-between items-center p-3 "
             >
               <div className="w-1/6">
                 <p className="lg:inline hidden text-2xl font-bold ">
@@ -234,7 +235,7 @@ export default function HomePage() {
             {/* In 3 days */}
             <Link
               to={`/daily-weather/4`}
-              className="flex justify-between items-center p-3 bg-blue-500"
+              className="flex justify-between items-center p-3 "
             >
               <div className="w-1/6">
                 <p className="lg:inline hidden text-2xl font-bold ">
@@ -264,7 +265,7 @@ export default function HomePage() {
             {/* In 4 days */}
             <Link
               to={`/daily-weather/5`}
-              className="flex justify-between items-center p-3 bg-blue-500"
+              className="flex justify-between items-center p-3 "
             >
               <div className="w-1/6">
                 <p className="lg:inline hidden text-2xl font-bold ">
