@@ -34,7 +34,7 @@ export default function DayWeatherPage() {
             onClick={() => setIsHourly(!isHourly)}
             className={`text-xl lg:text-5xl font-thin mb-15 bg-linear-to-tr from-slate-800 to-sky-800 rounded-2xl px-5 py-2  w-50/100`}
           >
-            {isHourly ? "Giorno" : "Ore"}
+            {isHourly ? "Per ora" : "Giornaliero"}
           </div>
 
           <div className="flex flex-wrap flex-row  gap-3 lg:gap-5  justify-between items-center lg:px-50 px-10 w-screen">
