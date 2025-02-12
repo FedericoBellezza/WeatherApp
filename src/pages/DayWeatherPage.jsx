@@ -4,8 +4,13 @@ import { useState } from "react";
 
 export default function DayWeatherPage() {
   const { id } = useParams();
-  const { searchedCity, setWeatherResult, weatherResult, findImage } =
-    useGlobalContext();
+  const {
+    searchedCity,
+    setWeatherResult,
+    weatherResult,
+    findImage,
+    convertDate,
+  } = useGlobalContext();
   const [isHourly, setIsHourly] = useState(false);
 
   console.log(id);
@@ -28,9 +33,12 @@ export default function DayWeatherPage() {
       <i className="fa-solid fa-sun text-[30rem] xl:text-[60rem] text-white fixed opacity-35 xl:top-30 xl:left-[-10rem] top-100 left-[-15rem]  z-[-1]"></i>
 
       <div className="mx-auto my-0 max-w-screen overflow-hidden bg-linear-to-tr  min-h-screen h-full flex flex-col items-center pb-50 ">
-        <h1 className="xl:text-5xl lg:text-7xl text-4xl font-black text-white text-center lg:mt-10 py-10">
+        <div className="xl:text-5xl lg:text-7xl text-4xl font-black text-white text-center lg:mt-10 pt-10 pb-5">
           {searchedCity ? searchedCity.address.city : "Città non impostata"}
-        </h1>
+        </div>
+        <div className="xl:text-4xl  text-2xl text-white pb-10">
+          {convertDate(weatherResult.daily.time[id])}
+        </div>
 
         {/* button  */}
         <div className=" text-white text-center flex flex-col items-center  ">
