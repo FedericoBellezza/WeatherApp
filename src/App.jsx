@@ -9,7 +9,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={<HomePage />} />
-          <Route path="/daily-weather/:date" element={<DayWeatherPage />} />
+          <Route path="/daily-weather/:id" element={<DayWeatherPage />} />
         </Routes>
       </BrowserRouter>
     </GlobalContextProvider>
