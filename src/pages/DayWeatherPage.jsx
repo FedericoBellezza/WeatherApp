@@ -45,7 +45,7 @@ export default function DayWeatherPage() {
         <div className=" text-white text-center flex flex-col items-center  ">
           <div
             onClick={() => setIsHourly(!isHourly)}
-            className={`text-xl lg:text-2xl  mb-15 bg-linear-to-tr from-slate-800 to-sky-800 rounded-2xl px-5 py-2 cursor-pointer`}
+            className={`text-xl lg:text-2xl  mb-15 bg-linear-to-tr from-sky-700 to-sky-600 rounded-2xl px-5 py-2 cursor-pointer`}
           >
             {isHourly ? "Per ora" : "Giornaliero"}
           </div>
@@ -54,7 +54,7 @@ export default function DayWeatherPage() {
           {!isHourly && (
             <div className="flex flex-wrap flex-row gap-3  justify-between items-center lg:px-50 px-10 w-screen">
               {/* Precipitation probability */}
-              <div className="flex flex-col items-center justify-between  md:w-1/5 w-35    gap-3 bg-linear-to-tr from-sky-800 to-sky-600 border rounded-2xl p-5  ">
+              <div className="flex flex-col items-center justify-between  md:w-1/5 w-35    gap-3 bg-linear-to-tr from-sky-600 to-sky-500  rounded-2xl p-5  ">
                 <i className="fa-solid fa-cloud-rain text-5xl lg:text-7xl"></i>
                 <div className="md:text-2xl text-lg ">
                   Probabilità <br />
@@ -62,7 +62,7 @@ export default function DayWeatherPage() {
                 </div>
               </div>
               {/* Precipitation probability */}
-              <div className="flex flex-col items-center justify-between  md:w-1/5 w-35    gap-3 bg-linear-to-tr from-sky-800 to-sky-600 border rounded-2xl p-5  ">
+              <div className="flex flex-col items-center justify-between  md:w-1/5 w-35    gap-3 bg-linear-to-tr from-sky-600 to-sky-500  rounded-2xl p-5  ">
                 <i className="fa-solid fa-umbrella text-5xl lg:text-7xl"></i>
                 <div className="md:text-2xl text-lg ">
                   Quantità
@@ -70,28 +70,28 @@ export default function DayWeatherPage() {
                 </div>
               </div>
               {/* Precipitation probability */}
-              <div className="flex flex-col items-center justify-between md:w-1/5 w-35   gap-3 bg-linear-to-tr from-sky-800 to-sky-600 border rounded-2xl p-5  ">
+              <div className="flex flex-col items-center justify-between md:w-1/5 w-35   gap-3 bg-linear-to-tr from-sky-600 to-sky-500  rounded-2xl p-5  ">
                 <i className="fa-solid fa-sun text-5xl lg:text-7xl"></i>
                 <div className="md:text-2xl text-lg ">
                   Alba <br /> {getJustTime(weatherResult.daily.sunrise[id])}
                 </div>
               </div>
               {/* Precipitation probability */}
-              <div className="flex flex-col items-center justify-between md:w-1/5 w-35   gap-3 bg-linear-to-tr from-sky-800 to-sky-600 border rounded-2xl p-5  ">
+              <div className="flex flex-col items-center justify-between md:w-1/5 w-35   gap-3 bg-linear-to-tr from-sky-600 to-sky-500  rounded-2xl p-5  ">
                 <i className="fa-solid fa-moon text-5xl lg:text-7xl"></i>
                 <div className="md:text-2xl text-lg ">
                   Tramonto <br /> {getJustTime(weatherResult.daily.sunset[id])}
                 </div>
               </div>
               {/* Precipitation probability */}
-              <div className="flex flex-col items-center justify-between md:w-1/5 w-35   gap-3 bg-linear-to-tr from-sky-800 to-sky-600 border rounded-2xl p-5  ">
+              <div className="flex flex-col items-center justify-between md:w-1/5 w-35   gap-3 bg-linear-to-tr from-sky-600 to-sky-500  rounded-2xl p-5  ">
                 <i className="fa-solid fa-wind text-5xl lg:text-7xl"></i>
                 <div className="md:text-2xl text-lg ">
                   Vento <br /> {weatherResult.daily.wind_speed_10m_max[id]} km/h
                 </div>
               </div>
               {/* Precipitation probability */}
-              <div className="flex flex-col items-center justify-between md:w-1/5 w-35   gap-3 bg-linear-to-tr from-sky-800 to-sky-600 border rounded-2xl p-5  ">
+              <div className="flex flex-col items-center justify-between md:w-1/5 w-35   gap-3 bg-linear-to-tr from-sky-600 to-sky-500  rounded-2xl p-5  ">
                 <i className="fa-solid fa-water text-5xl lg:text-7xl"></i>
                 <div className="md:text-2xl text-lg ">
                   Umidità <br /> {weatherResult.hourly.relative_humidity_2m[id]}{" "}
@@ -99,14 +99,14 @@ export default function DayWeatherPage() {
                 </div>
               </div>
               {/* Precipitation probability */}
-              <div className="flex flex-col items-center justify-between md:w-1/5 w-35   gap-3 bg-linear-to-tr from-sky-800 to-sky-600 border rounded-2xl p-5  ">
+              <div className="flex flex-col items-center justify-between md:w-1/5 w-35   gap-3 bg-linear-to-tr from-sky-600 to-sky-500  rounded-2xl p-5  ">
                 <i className="fa-solid fa-temperature-arrow-up text-5xl lg:text-7xl"></i>
                 <div className="md:text-2xl text-lg ">
                   Massima <br /> {weatherResult.daily.temperature_2m_max[id]} °C
                 </div>
               </div>
               {/* Precipitation probability */}
-              <div className="flex flex-col items-center justify-between md:w-1/5 w-35   gap-3 bg-linear-to-tr from-sky-800 to-sky-600 border rounded-2xl p-5  ">
+              <div className="flex flex-col items-center justify-between md:w-1/5 w-35   gap-3 bg-linear-to-tr from-sky-600 to-sky-500  rounded-2xl p-5  ">
                 <i className="fa-solid fa-temperature-arrow-down text-5xl lg:text-7xl"></i>
                 <div className="md:text-2xl text-lg ">
                   Minima <br /> {weatherResult.daily.temperature_2m_min[id]} °C
@@ -118,7 +118,7 @@ export default function DayWeatherPage() {
 
         {/* hourly display */}
         {isHourly && (
-          <div className=" items-center bg-linear-to-tr from-slate-800 to-sky-800 p-3 rounded-xl w-95/100 lg:w-60/100  text-white">
+          <div className=" items-center bg-linear-to-tr from-sky-600 to-sky-500 p-3 rounded-xl w-95/100 lg:w-60/100  text-white">
             {/* header */}
             <div className="flex flex-wrap flex-row      items-center text-center mb-3 ">
               <div className="w-1/4 ">Ora</div>
