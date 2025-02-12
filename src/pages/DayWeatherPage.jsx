@@ -3,6 +3,7 @@ import { useGlobalContext } from "../context/GlobalContext";
 import { useState } from "react";
 
 export default function DayWeatherPage() {
+  window.scrollTo(0, 0);
   const { id } = useParams();
   const {
     searchedCity,
