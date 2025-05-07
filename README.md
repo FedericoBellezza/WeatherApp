@@ -1,8 +1,32 @@
-# React + Vite
+# Weather App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🌩 **Weather App** è un progetto realizzato per sperimentare l'integrazione di API di terze parti, offrendo un modo semplice per ottenere previsioni meteo in base alla posizione geografica.
 
-Currently, two official plugins are available:
+🌍 Utilizza due API principali:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Geocoding API** per convertire un indirizzo in coordinate geografiche.
+- **Weather API** per ottenere le previsioni meteo in base alle coordinate fornite.
+
+<img src="./public/wheatherApp-screenshot.JPG" alt="Desktop screenshot" >
+
+## 📦 Tecnologie Utilizzate
+
+- **React** per la logica e l'interfaccia utente.
+
+- **Tailwind CSS** per uno stile moderno e reattivo.
+
+- **Firebase** per il deploy automatico al push della repository.
+
+- **React** per la logica e l'interfaccia utente.
+
+- **Tailwind CSS** per uno stile moderno e reattivo.
+
+## 🌐 Demo Online
+
+Il sito è disponibile all'indirizzo: [Weather App](https://weatherapp-federicobellezza.web.app/)
+
+## 🚀 Funzionalità
+
+- Inserisci un indirizzo e ottieni le previsioni meteo in tempo reale.
+- Visualizzazione grafica delle condizioni atmosferiche.
+- Interfaccia responsive per una perfetta esperienza su tutti i dispositivi.
