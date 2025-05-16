@@ -17,10 +17,6 @@
 
 - **Firebase** per il deploy automatico al push della repository.
 
-- **React** per la logica e l'interfaccia utente.
-
-- **Tailwind CSS** per uno stile moderno e reattivo.
-
 ## 🌐 Demo Online
 
 Il sito è disponibile all'indirizzo: [Weather App](https://weatherapp-federicobellezza.web.app/)
