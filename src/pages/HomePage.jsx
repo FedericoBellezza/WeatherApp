@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useGlobalContext } from "../context/GlobalContext";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,20 @@ export default function HomePage() {
     getWheather,
     findImage,
   } = useGlobalContext();
+
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          getWheather({ lat: latitude, lon: longitude });
+        },
+        (error) => {
+          console.error("Error getting geolocation:", error);
+        }
+      );
+    }
+  }, []);
 
   return (
     <>
@@ -84,7 +99,9 @@ export default function HomePage() {
             <Card className=" mx-auto mb-8">
               <CardHeader>
                 <CardTitle className="text-2xl text-center">
-                  Weekly Forecast
+                  {searchedCity
+                    ? `Weekly Forecast for ${searchedCity}`
+                    : "Weekly Forecast"}
                 </CardTitle>
               </CardHeader>
               <CardContent>

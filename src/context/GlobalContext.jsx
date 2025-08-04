@@ -42,9 +42,8 @@ export const GlobalContextProvider = ({ children }) => {
   // function to get wheather from coordinates
   const getWheather = (city) => {
     setIsLoading(true);
-    console.log(city.address.city);
-
     setCityArray([]);
+
     const latitude = city.lat;
     const longitude = city.lon;
 
@@ -54,10 +53,22 @@ export const GlobalContextProvider = ({ children }) => {
       .then((res) => res.json())
       .then((data) => {
         setIsLoading(false);
-
         setWeatherResult(data);
-        console.log(data);
-        setSearchedCity(city);
+        if (city.address) {
+          setSearchedCity(city.address.city);
+        } else {
+          // Reverse geocode to get city name from coordinates
+          fetch(
+            `https://us1.locationiq.com/v1/reverse.php?key=pk.5de778617138b4b5dc62d48a839fa325&lat=${latitude}&lon=${longitude}&format=json`
+          )
+            .then((res) => res.json())
+            .then((reverseData) => {
+              setSearchedCity(
+                reverseData.address.city || reverseData.display_name
+              );
+            })
+            .catch((err) => console.error(err));
+        }
       })
       .catch((err) => console.error(err));
   };
