@@ -50,11 +50,11 @@ export default function DayWeatherPage() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="container mx-auto px-4 sm:px-6 lg:px-8 py-12"
+        className="container mx-auto px-4 sm:px-6 lg:px-8 lg:py-12 py-5"
       >
-        <div>
+        <div className="mb-8 lg:mb-0">
           <Link to={"/"}>
-            <Button className={"cursor-pointer "}>
+            <Button className={"cursor-pointer"}>
               <i className="fa-solid fa-arrow-left mr-2"></i> Go back
             </Button>
           </Link>
