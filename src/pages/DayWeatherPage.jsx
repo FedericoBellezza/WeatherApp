@@ -1,15 +1,13 @@
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router-dom";
 import { useGlobalContext } from "../context/GlobalContext";
-import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
 
 export default function DayWeatherPage() {
   window.scrollTo(0, 0);
   const { id } = useParams();
   const { weatherResult, findImage, convertDate } = useGlobalContext();
-  const [isHourly, setIsHourly] = useState(false);
 
   if (!weatherResult.daily) {
     window.location.replace("/");
@@ -54,6 +52,13 @@ export default function DayWeatherPage() {
         transition={{ duration: 0.5 }}
         className="container mx-auto px-4 sm:px-6 lg:px-8 py-12"
       >
+        <div>
+          <Link to={"/"}>
+            <Button className={"cursor-pointer "}>
+              <i className="fa-solid fa-arrow-left mr-2"></i> Go back
+            </Button>
+          </Link>
+        </div>
         <div className="text-center mb-8">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground">
             {weatherResult.address?.city || "Weather Details"}
@@ -63,106 +68,98 @@ export default function DayWeatherPage() {
           </p>
         </div>
 
-        <div className="text-center mb-8">
-          <Button onClick={() => setIsHourly(!isHourly)}>
-            {isHourly ? "Show Daily Summary" : "Show Hourly Forecast"}
-          </Button>
-        </div>
-
-        {isHourly ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           <Card>
             <CardHeader>
-              <CardTitle>Hourly Forecast</CardTitle>
+              <CardTitle>Precipitation</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                {hourlyData.map((hour) => (
-                  <div
-                    key={hour.time}
-                    className="bg-muted p-4 rounded-lg text-center"
-                  >
-                    <p className="font-semibold">{hour.time}</p>
-                    <img
-                      src={findImage(hour.weather_code)}
-                      alt="weather icon"
-                      className="w-12 h-12 mx-auto my-2"
-                    />
-                    <p className="font-bold">{hour.temp}°C</p>
-                    <p className="text-sm">
-                      Rain: {hour.precipitation_probability}%
-                    </p>
-                  </div>
-                ))}
+            <CardContent className="text-center">
+              <i className="fa-solid fa-cloud-rain text-5xl mb-4"></i>
+              <p className="text-2xl font-bold">
+                {dayData.precipitation_probability}%
+              </p>
+              <p>{dayData.precipitation_sum} mm</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Sunrise & Sunset</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+              <div className="flex justify-around">
+                <div>
+                  <i className="fa-solid fa-sun text-5xl mb-2"></i>
+                  <p className="text-lg">{dayData.sunrise}</p>
+                </div>
+                <div>
+                  <i className="fa-solid fa-moon text-5xl mb-2"></i>
+                  <p className="text-lg">{dayData.sunset}</p>
+                </div>
               </div>
             </CardContent>
           </Card>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <Card>
-              <CardHeader>
-                <CardTitle>Precipitation</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <i className="fa-solid fa-cloud-rain text-5xl mb-4"></i>
-                <p className="text-2xl font-bold">
-                  {dayData.precipitation_probability}%
-                </p>
-                <p>{dayData.precipitation_sum} mm</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Sunrise & Sunset</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <div className="flex justify-around">
-                  <div>
-                    <i className="fa-solid fa-sun text-5xl mb-2"></i>
-                    <p className="text-lg">{dayData.sunrise}</p>
-                  </div>
-                  <div>
-                    <i className="fa-solid fa-moon text-5xl mb-2"></i>
-                    <p className="text-lg">{dayData.sunset}</p>
-                  </div>
+          <Card>
+            <CardHeader>
+              <CardTitle>Wind & Humidity</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+              <div className="flex justify-around">
+                <div>
+                  <i className="fa-solid fa-wind text-5xl mb-2"></i>
+                  <p className="text-lg">{dayData.wind_speed} km/h</p>
                 </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Wind & Humidity</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <div className="flex justify-around">
-                  <div>
-                    <i className="fa-solid fa-wind text-5xl mb-2"></i>
-                    <p className="text-lg">{dayData.wind_speed} km/h</p>
-                  </div>
-                  <div>
-                    <i className="fa-solid fa-water text-5xl mb-2"></i>
-                    <p className="text-lg">{dayData.humidity}%</p>
-                  </div>
+                <div>
+                  <i className="fa-solid fa-water text-5xl mb-2"></i>
+                  <p className="text-lg">{dayData.humidity}%</p>
                 </div>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader>
-                <CardTitle>Temperature</CardTitle>
-              </CardHeader>
-              <CardContent className="text-center">
-                <div className="flex justify-around">
-                  <div>
-                    <i className="fa-solid fa-temperature-arrow-up text-5xl mb-2"></i>
-                    <p className="text-lg">{dayData.temp_max}°C</p>
-                  </div>
-                  <div>
-                    <i className="fa-solid fa-temperature-arrow-down text-5xl mb-2"></i>
-                    <p className="text-lg">{dayData.temp_min}°C</p>
-                  </div>
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Temperature</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+              <div className="flex justify-around">
+                <div>
+                  <i className="fa-solid fa-temperature-arrow-up text-5xl mb-2"></i>
+                  <p className="text-lg">{dayData.temp_max}°C</p>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
+                <div>
+                  <i className="fa-solid fa-temperature-arrow-down text-5xl mb-2"></i>
+                  <p className="text-lg">{dayData.temp_min}°C</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Hourly Forecast</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+              {hourlyData.map((hour) => (
+                <div
+                  key={hour.time}
+                  className="bg-gradient-to-br from-sky-100 to-sky-300 text-gray-800 p-4 rounded-lg text-center"
+                >
+                  <p className="font-semibold">{hour.time}</p>
+                  <img
+                    src={findImage(hour.weather_code)}
+                    alt="weather icon"
+                    className="w-20 h-20 mx-auto my-2"
+                  />
+                  <p className="font-bold">{hour.temp}°C</p>
+                  <p className="text-sm">
+                    Rain: {hour.precipitation_probability}%
+                  </p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </motion.div>
     </>
   );

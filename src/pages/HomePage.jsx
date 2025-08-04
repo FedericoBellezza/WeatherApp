@@ -47,7 +47,7 @@ export default function HomePage() {
         transition={{ duration: 0.5 }}
         className="container mx-auto px-4 sm:px-6 lg:px-8 py-12"
       >
-        <h1 className="text-4xl md:text-5xl font-bold text-center text-foreground mb-8">
+        <h1 className="text-4xl md:text-5xl font-bold text-center text-foreground my-8">
           WeatherApp⛅
         </h1>
 
@@ -88,6 +88,31 @@ export default function HomePage() {
               ))}
             </CardContent>
           </Card>
+        )}
+
+        {!weatherResult.daily && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mt-30">
+            <div>
+              <h2 className="text-3xl font-bold text-foreground mb-4">
+                Welcome to WeatherApp
+              </h2>
+              <p className="text-muted-foreground mb-4">
+                Get the latest weather forecast for your city. Search for a
+                location to get started.
+              </p>
+              <p className="text-muted-foreground">
+                This app provides a 7-day forecast, hourly forecast, and other
+                details like wind speed, humidity, and UV index.
+              </p>
+            </div>
+            <div>
+              <img
+                src="https://services.meteored.com/img/article/previsioni-a-portata-di-smartphone-cosa-sono-e-come-usare-le-app-meteo-condizionano-veramente-il-turismo-1683896977308_1280.jpeg"
+                alt="WeatherApp screenshot"
+                className="rounded-lg shadow-lg"
+              />
+            </div>
+          </div>
         )}
 
         {weatherResult.daily && weatherResult.daily.weather_code && (
