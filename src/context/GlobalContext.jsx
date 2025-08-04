@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import PropTypes from "prop-types";
 const GlobalContext = createContext();
 
 export const useGlobalContext = () => useContext(GlobalContext);
@@ -48,7 +49,7 @@ export const GlobalContextProvider = ({ children }) => {
     const longitude = city.lon;
 
     fetch(
-      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,cloud_cover,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,precipitation_sum,precipitation_probability_max,wind_speed_10m_max&past_days=1`
+      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=relative_humidity_2m,wind_speed_10m,wind_direction_10m&hourly=temperature_2m,relative_humidity_2m,precipitation_probability,precipitation,weather_code,cloud_cover,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset,uv_index_max,precipitation_sum,precipitation_probability_max,wind_speed_10m_max&past_days=1`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -379,4 +380,8 @@ export const GlobalContextProvider = ({ children }) => {
   return (
     <GlobalContext.Provider value={data}>{children}</GlobalContext.Provider>
   );
+};
+
+GlobalContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
